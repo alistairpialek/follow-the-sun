@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awsevents"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awseventstargets"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -21,7 +23,7 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	awslambda.NewFunction(stack, jsii.String(config.FuncionName), &awslambda.FunctionProps{
+	lambda := awslambda.NewFunction(stack, jsii.String(config.FuncionName), &awslambda.FunctionProps{
 		FunctionName: jsii.String(*stack.StackName() + "-" + config.FuncionName),
 		Architecture: awslambda.Architecture_ARM_64(),
 		Runtime:      awslambda.Runtime_PROVIDED_AL2023(),
@@ -29,6 +31,13 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 		Timeout:      awscdk.Duration_Seconds(jsii.Number(config.MaxDuration)),
 		Code:         awslambda.AssetCode_FromAsset(jsii.String(config.CodePath), nil),
 		Handler:      jsii.String(config.Handler),
+	})
+
+	awsevents.NewRule(stack, jsii.String("ScheduleRule"), &awsevents.RuleProps{
+		Schedule: awsevents.Schedule_Rate(awscdk.Duration_Hours(jsii.Number(1))),
+		Targets: &[]awsevents.IRuleTarget{
+			awseventstargets.NewLambdaFunction(lambda, nil),
+		},
 	})
 
 	return stack
