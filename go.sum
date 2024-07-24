@@ -1,0 +1,16 @@
+github.com/Masterminds/semver/v3 v3.2.1 h1:RN9w6+7QoMeJVGyfmbcgs28Br8cvmnucEXnY0rYXWg0=
+github.com/Masterminds/semver/v3 v3.2.1/go.mod h1:qvl/7zhW3nngYb5+80sSMF+FG2BjYrf8m9wsX0PNOMQ=
+github.com/aws/aws-cdk-go/awscdk/v2 v2.149.0 h1:70kpJE06nHz5tkL66AZCT/uvALZ4rLxpHJvUycjMaX0=
+github.com/aws/aws-cdk-go/awscdk/v2 v2.149.0/go.mod h1:lpJq6B2AsZbjSvlJbLmCwjKwuT7voQc3xmFjEbJOTdA=
+github.com/aws/aws-lambda-go v1.47.0 h1:0H8s0vumYx/YKs4sE7YM0ktwL2eWse+kfopsRI1sXVI=
+github.com/aws/aws-lambda-go v1.47.0/go.mod h1:dpMpZgvWx5vuQJfBt0zqBha60q7Dd7RfgJv23DymV8A=
+github.com/aws/constructs-go/constructs/v10 v10.3.0 h1:LsjBIMiaDX/vqrXWhzTquBJ9pPdi02/H+z1DCwg0PEM=
+github.com/aws/constructs-go/constructs/v10 v10.3.0/go.mod h1:GgzwIwoRJ2UYsr3SU+JhAl+gq5j39bEMYf8ev3J+s9s=
+github.com/aws/jsii-runtime-go v1.101.0 h1:x4rWNWRz7uDhVN0qSO7T6cG0VAhQ9300s5DjWUrXmWY=
+github.com/aws/jsii-runtime-go v1.101.0/go.mod h1:4L4Qmve/HSwM5hXV5ZowR2gBNb9zqkUtycaaN6aZ3mg=
+github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.202 h1:VixXB9DnHN8oP7pXipq8GVFPjWCOdeNxIaS/ZyUwTkI=
+github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.202/go.mod h1:iPUti/SWjA3XAS3CpnLciFjS8TN9Y+8mdZgDfSgcyus=
+github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.2 h1:k+WD+6cERd59Mao84v0QtRrcdZuuSMfzlEmuIypKnVs=
+github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.2/go.mod h1:CvFHBo0qcg8LUkJqIxQtP1rD/sNGv9bX3L2vHT2FUAo=
+github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv6/v2 v2.0.3 h1:8NLWOIVaxAtpUXv5reojlAeDP7R8yswm9mDONf7F/3o=
+github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv6/v2 v2.0.3/go.mod h1:ZjFqfhYpCLzh4z7ChcHCrkXfqCuEiRlNApDfJd6plts=
