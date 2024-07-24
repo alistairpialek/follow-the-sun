@@ -23,8 +23,8 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	lambda := awslambda.NewFunction(stack, jsii.String(config.FuncionName), &awslambda.FunctionProps{
-		FunctionName: jsii.String(*stack.StackName() + "-" + config.FuncionName),
+	lambda := awslambda.NewFunction(stack, jsii.String(config.FunctionName), &awslambda.FunctionProps{
+		FunctionName: jsii.String(*stack.StackName() + "-" + config.FunctionName),
 		Architecture: awslambda.Architecture_ARM_64(),
 		Runtime:      awslambda.Runtime_PROVIDED_AL2023(),
 		MemorySize:   jsii.Number(config.MemorySize),
@@ -38,6 +38,25 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 		Targets: &[]awsevents.IRuleTarget{
 			awseventstargets.NewLambdaFunction(lambda, nil),
 		},
+	})
+
+	worker := awslambda.NewFunction(stack, jsii.String(config.WorkerFunctionName), &awslambda.FunctionProps{
+		FunctionName: jsii.String(*stack.StackName() + "-" + config.WorkerFunctionName),
+		Architecture: awslambda.Architecture_ARM_64(),
+		Runtime:      awslambda.Runtime_PROVIDED_AL2023(),
+		MemorySize:   jsii.Number(config.WorkerMemorySize),
+		Timeout:      awscdk.Duration_Seconds(jsii.Number(config.WorkerMaxDuration)),
+		Code:         awslambda.AssetCode_FromAsset(jsii.String(config.WorkerCodePath), nil),
+		Handler:      jsii.String(config.WorkerHandler),
+	})
+
+	workerUrl := worker.AddFunctionUrl(&awslambda.FunctionUrlOptions{
+		AuthType: awslambda.FunctionUrlAuthType_NONE,
+	})
+
+	awscdk.NewCfnOutput(stack, jsii.String("WorkerURL"), &awscdk.CfnOutputProps{
+		Value:       workerUrl.Url(),
+		Description: jsii.String("Worker function public URL"),
 	})
 
 	return stack

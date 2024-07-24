@@ -41,7 +41,7 @@ synth: clean build
 #
 # Deploy CloudFormation scripts.
 #
-deploy: clean build lambda-build
+deploy: clean build lambda-build worker-build
 	$(CDK) deploy --require-approval never
 
 #
@@ -50,3 +50,21 @@ deploy: clean build lambda-build
 lambda-build: CMD=go build -o function/bootstrap function/main.go
 lambda-build:
 	$(CDK)
+
+#
+# Build go binary used by the worker running in current region.
+#
+worker-build: CMD=go build -o worker/bootstrap worker/main.go
+worker-build:
+	$(CDK)
+
+#
+# Can be used to test the work by invoking it via browser URL.
+# http://localhost:9000/2015-03-31/functions/function/invocations
+#
+worker-run: worker-build
+	docker run -it \
+	-e AWS_REGION=us-west-1 \
+	-v $(PWD)/worker:/var/task \
+	-p 9000:8080 \
+	public.ecr.aws/lambda/go:1.2024.07.10.12 bootstrap
