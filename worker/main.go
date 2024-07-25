@@ -7,9 +7,18 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func HandleRequest() (string, error) {
-	message := fmt.Sprintf("Running in %s", os.Getenv("AWS_REGION"))
-	return message, nil
+type Response struct {
+	StatusCode int               `json:"statusCode"`
+	Headers    map[string]string `json:"headers"`
+	Body       string            `json:"body"`
+}
+
+func HandleRequest() (Response, error) {
+	return Response{
+		StatusCode: 200,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       fmt.Sprintf("Running in %s", os.Getenv("AWS_REGION")),
+	}, nil
 }
 
 func main() {
