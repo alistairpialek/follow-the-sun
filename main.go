@@ -23,7 +23,7 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	lambda := awslambda.NewFunction(stack, jsii.String(config.FunctionName), &awslambda.FunctionProps{
+	router := awslambda.NewFunction(stack, jsii.String(config.FunctionName), &awslambda.FunctionProps{
 		FunctionName: jsii.String(*stack.StackName() + "-" + config.FunctionName),
 		Architecture: awslambda.Architecture_ARM_64(),
 		Runtime:      awslambda.Runtime_PROVIDED_AL2023(),
@@ -36,7 +36,7 @@ func NewLambdaCdkStack(scope constructs.Construct, id string, props *LambdaCdkSt
 	awsevents.NewRule(stack, jsii.String("ScheduleRule"), &awsevents.RuleProps{
 		Schedule: awsevents.Schedule_Rate(awscdk.Duration_Hours(jsii.Number(1))),
 		Targets: &[]awsevents.IRuleTarget{
-			awseventstargets.NewLambdaFunction(lambda, nil),
+			awseventstargets.NewLambdaFunction(router, nil),
 		},
 	})
 
