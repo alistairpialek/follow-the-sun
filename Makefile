@@ -31,6 +31,7 @@ shell:
 #
 bootstrap:
 	$(CDK) bootstrap aws://$(CDK_DEPLOY_ACCOUNT)/$(CDK_DEPLOY_REGION)
+	$(CDK) bootstrap aws://$(CDK_DEPLOY_ACCOUNT)/us-west-1
 
 #
 # Good for testing CloudFormation output.
@@ -41,20 +42,13 @@ synth: clean build
 #
 # Deploy CloudFormation scripts.
 #
-deploy: clean build lambda-build worker-build
-	$(CDK) deploy --require-approval never
+deploy: clean build worker-build
+	$(CDK) deploy --require-approval never --all
 
 #
 # Build go binary used by the lambda deployed by CDK code.
 #
-lambda-build: CMD=go build -o function/bootstrap function/main.go
-lambda-build:
-	$(CDK)
-
-#
-# Build go binary used by the worker running in current region.
-#
-worker-build: CMD=go build -o worker/bootstrap worker/main.go
+worker-build: CMD=go build -o function/bootstrap function/main.go
 worker-build:
 	$(CDK)
 
@@ -65,6 +59,6 @@ worker-build:
 worker-run: worker-build
 	docker run -it \
 	-e AWS_REGION=us-west-1 \
-	-v $(PWD)/worker:/var/task \
+	-v $(PWD)/function:/var/task \
 	-p 9000:8080 \
 	public.ecr.aws/lambda/go:1.2024.07.10.12 bootstrap
